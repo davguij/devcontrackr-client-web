@@ -10,6 +10,20 @@
         </h2>
       </div>
     </div>
+    <div class="hero-foot">
+      <nav class="tabs">
+        <div class="container">
+          <ul>
+            <li>
+              <a>Home</a>
+            </li>
+            <li>
+              <router-link to="/conferences/create">New conference</router-link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
   </section>
 </template>
 

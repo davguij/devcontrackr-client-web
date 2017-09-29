@@ -1,3 +1,6 @@
+import gql from 'graphql-tag';
+import client from '../../graphql-client/graphql-client';
+
 export default {
   namespaced: true,
   state: {
@@ -5,9 +8,40 @@ export default {
   },
   actions: {
     async getConferences({ commit }) {
-      //   const response = await getApplications();
-      commit('SET_CONFERENCES', [{ id: 'a1', name: 'AngularConnect 2017' }]);
-      //   return Promise.resolve();
+      const conferences = await client.query({
+        query: gql`
+        {
+          conferences {
+            name
+            dates
+            topics
+            location {
+              venue
+              city
+              country
+            }
+          }
+        }
+        `,
+      });
+      commit('SET_CONFERENCES', conferences.data.conferences);
+    },
+    async createConference(context, newConf) {
+      try {
+        const mutation = await client.mutate({
+          mutation: gql`
+          mutation createConference($input: CreateConferenceInput!) {
+            createConference(input: $input) {
+              id
+            }
+          }
+          `,
+          variables: {
+            input: newConf,
+          },
+        });
+        return mutation.data.createConference.id;
+      } catch (err) { throw err; }
     },
   },
   mutations: {
