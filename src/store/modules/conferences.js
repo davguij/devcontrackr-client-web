@@ -26,13 +26,20 @@ export default {
       });
       commit('SET_CONFERENCES', conferences.data.conferences);
     },
-    async createConference(context, newConf) {
+    async createConference({ commit }, newConf) {
       try {
-        const mutation = await client.mutate({
+        const savedConf = await client.mutate({
           mutation: gql`
           mutation createConference($input: CreateConferenceInput!) {
             createConference(input: $input) {
-              id
+              name
+              dates
+              topics
+              location {
+                venue
+                city
+                country
+              }
             }
           }
           `,
@@ -40,7 +47,8 @@ export default {
             input: newConf,
           },
         });
-        return mutation.data.createConference.id;
+        commit('ADD_CONFERENCE', savedConf.data.createConference);
+        return savedConf.data.createConference;
       } catch (err) { throw err; }
     },
   },
@@ -48,6 +56,9 @@ export default {
     /* eslint no-param-reassign: ['error', { 'props': false }] */
     SET_CONFERENCES(state, conferences) {
       state.conferences = conferences;
+    },
+    ADD_CONFERENCE(state, conference) {
+      state.conferences = [conference, ...state.conferences];
     },
   },
 };

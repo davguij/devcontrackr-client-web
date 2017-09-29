@@ -44,7 +44,7 @@ export default {
     ...mapActions('conferences', ['getConferences']),
   },
   created() {
-    this.getConferences();
+    if (!this.conferences.length) this.getConferences();
   },
 };
 </script>
