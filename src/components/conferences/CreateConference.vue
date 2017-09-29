@@ -36,10 +36,10 @@
           <b-input v-model="newConf.languages"></b-input>
         </b-field>
         <b-field label="Speakers">
-          <b-select multiple>
-            <!-- <option v-for="option in options" :value="option.id" :key="option.id">
-                                                        {{ option.user.first_name }}
-                                                      </option> -->
+          <b-select multiple v-model="newConf.speakers">
+            <option v-for="speaker in speakers" :value="speaker.id" :key="speaker.id">
+              {{ speaker.name }}
+            </option>
           </b-select>
 
         </b-field>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import Banner from '../Banner';
 
 export default {
@@ -83,11 +83,16 @@ export default {
         location: {},
         dates: [],
         web_presence: {},
+        speakers: [],
       },
     };
   },
+  computed: {
+    ...mapState('speakers', ['speakers']),
+  },
   methods: {
     ...mapActions('conferences', ['createConference']),
+    ...mapActions('speakers', ['getSpeakers']),
     submit() {
       this.newConf.topics = this.newConf.topics.split(', ');
       this.createConference(this.newConf).then(() => {
@@ -95,6 +100,10 @@ export default {
       });
     },
   },
+  created() {
+    if (!this.speakers.length) this.getSpeakers();
+  },
+
 };
 </script>
 

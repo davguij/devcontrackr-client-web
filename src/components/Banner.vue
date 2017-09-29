@@ -20,6 +20,9 @@
             <li>
               <router-link to="/conferences/create">New conference</router-link>
             </li>
+            <li>
+              <router-link to="/speakers/create">New speaker</router-link>
+            </li>
           </ul>
         </div>
       </nav>
