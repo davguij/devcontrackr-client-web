@@ -20,7 +20,6 @@
               {{new Date(parseInt(props.row.dates[0])) | moment("calendar")}}
             </template>
           </b-table-column>
-
         </template>
       </b-table>
     </div>
@@ -36,7 +35,6 @@ export default {
   components: { Banner },
   data() {
     return {
-      // conferences: [{ id: 'this is an id', first: 'first' }],
     };
   },
   computed: {

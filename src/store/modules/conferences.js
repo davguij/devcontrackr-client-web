@@ -8,7 +8,6 @@ export default {
   },
   actions: {
     async getConferences({ commit }) {
-      //   const response = await getApplications();
       const conferences = await client.query({
         query: gql`
         {
@@ -26,6 +25,23 @@ export default {
         `,
       });
       commit('SET_CONFERENCES', conferences.data.conferences);
+    },
+    async createConference(context, newConf) {
+      try {
+        const mutation = await client.mutate({
+          mutation: gql`
+          mutation createConference($input: CreateConferenceInput!) {
+            createConference(input: $input) {
+              id
+            }
+          }
+          `,
+          variables: {
+            input: newConf,
+          },
+        });
+        return mutation.data.createConference.id;
+      } catch (err) { throw err; }
     },
   },
   mutations: {
