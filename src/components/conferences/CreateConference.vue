@@ -38,8 +38,8 @@
         <b-field label="Speakers">
           <b-select multiple>
             <!-- <option v-for="option in options" :value="option.id" :key="option.id">
-                                                  {{ option.user.first_name }}
-                                                </option> -->
+                                                        {{ option.user.first_name }}
+                                                      </option> -->
           </b-select>
 
         </b-field>
@@ -90,9 +90,8 @@ export default {
     ...mapActions('conferences', ['createConference']),
     submit() {
       this.newConf.topics = this.newConf.topics.split(', ');
-      this.createConference(this.newConf).then((savedConf) => {
-        console.log('saved');
-        console.log(savedConf);
+      this.createConference(this.newConf).then(() => {
+        this.$router.push('/');
       });
     },
   },
