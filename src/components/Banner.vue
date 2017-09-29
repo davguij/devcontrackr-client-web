@@ -15,7 +15,7 @@
         <div class="container">
           <ul>
             <li>
-              <a>Home</a>
+              <router-link to="/">Home</router-link>
             </li>
             <li>
               <router-link to="/conferences/create">New conference</router-link>
